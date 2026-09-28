@@ -1000,6 +1000,377 @@ function formatPrice(price){
 loadCoins();
 
 </script>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>آدرس واریز ارزها</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#071a35;
+    color:white;
+}
+
+.header{
+    background:#0d2d55;
+    padding:20px 15px;
+    text-align:center;
+    font-size:23px;
+    font-weight:bold;
+}
+
+.container{
+    max-width:700px;
+    margin:auto;
+    padding:15px;
+}
+
+.coin{
+    background:#10345f;
+    margin-bottom:8px;
+    padding:17px;
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.coin:active{
+    transform:scale(.98);
+}
+
+.coin:hover{
+    background:#174576;
+}
+
+.coin-info{
+    text-align:right;
+}
+
+.coin-name{
+    font-size:18px;
+    font-weight:bold;
+}
+
+.coin-symbol{
+    color:#a9c4df;
+    font-size:13px;
+    margin-top:5px;
+}
+
+.arrow{
+    font-size:25px;
+}
+
+.deposit{
+    display:none;
+    background:white;
+    color:#111;
+    padding:17px;
+    margin-top:-8px;
+    margin-bottom:10px;
+    border-radius:0 0 14px 14px;
+}
+
+.deposit-title{
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.address{
+    direction:ltr;
+    text-align:left;
+    word-break:break-all;
+    background:#f1f3f5;
+    border:1px solid #ddd;
+    border-radius:10px;
+    padding:13px;
+    font-size:14px;
+    line-height:1.6;
+}
+
+.copy-btn{
+    width:100%;
+    margin-top:11px;
+    padding:13px;
+    border:0;
+    border-radius:10px;
+    background:#16c784;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.copy-btn:active{
+    transform:scale(.98);
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    💰 آدرس واریز ارزهای دیجیتال
+</div>
+
+<div class="container">
+
+<!-- 1 BTC -->
+<div class="coin" onclick="toggleDeposit('btc')">
+    <div class="coin-info">
+        <div class="coin-name">Bitcoin</div>
+        <div class="coin-symbol">BTC</div>
+    </div>
+    <div class="arrow">‹</div>
+</div>
+
+<div class="deposit" id="btc">
+    <div class="deposit-title">آدرس واریز Bitcoin</div>
+
+    <div class="address" id="btcAddress">
+        1Q99GpYnEU9yELNLjiJUWopNT1HatRYQrV
+    </div>
+
+    <button class="copy-btn" onclick="copyAddress('btcAddress',this)">
+        📋 کپی آدرس
+    </button>
+</div>
+
+
+<!-- 2 ETH -->
+<div class="coin" onclick="toggleDeposit('eth')">
+    <div class="coin-info">
+        <div class="coin-name">Ethereum</div>
+        <div class="coin-symbol">ETH</div>
+    </div>
+    <div class="arrow">‹</div>
+</div>
+
+<div class="deposit" id="eth">
+    <div class="deposit-title">آدرس واریز Ethereum</div>
+
+    <div class="address" id="ethAddress">
+        0x3765C083F36B7D874d3a6249436a84C9e9bDAbA6
+    </div>
+
+    <button class="copy-btn" onclick="copyAddress('ethAddress',this)">
+        📋 کپی آدرس
+    </button>
+</div>
+
+
+<!-- 3 TRX -->
+<div class="coin" onclick="toggleDeposit('trx')">
+    <div class="coin-info">
+        <div class="coin-name">TRON</div>
+        <div class="coin-symbol">TRX</div>
+    </div>
+    <div class="arrow">‹</div>
+</div>
+
+<div class="deposit" id="trx">
+    <div class="deposit-title">آدرس واریز TRON</div>
+
+    <div class="address" id="trxAddress">
+        TRb33idZSi7svRyBTRsEKq8BfL54ADYMh3
+    </div>
+
+    <button class="copy-btn" onclick="copyAddress('trxAddress',this)">
+        📋 کپی آدرس
+    </button>
+</div>
+
+
+<!-- 4 ETH -->
+<div class="coin" onclick="toggleDeposit('eth2')">
+    <div class="coin-info">
+        <div class="coin-name">Ethereum</div>
+        <div class="coin-symbol">ETH - آدرس دوم</div>
+    </div>
+    <div class="arrow">‹</div>
+</div>
+
+<div class="deposit" id="eth2">
+    <div class="deposit-title">آدرس واریز Ethereum</div>
+
+    <div class="address" id="eth2Address">
+        0x3765C083F36B7D874d3a6249436a84C9e9bDAbA6
+    </div>
+
+    <button class="copy-btn" onclick="copyAddress('eth2Address',this)">
+        📋 کپی آدرس
+    </button>
+</div>
+
+
+<!-- 5 SOL -->
+<div class="coin" onclick="toggleDeposit('sol')">
+    <div class="coin-info">
+        <div class="coin-name">Solana</div>
+        <div class="coin-symbol">SOL</div>
+    </div>
+    <div class="arrow">‹</div>
+</div>
+
+<div class="deposit" id="sol">
+    <div class="deposit-title">آدرس واریز Solana</div>
+
+    <div class="address" id="solAddress">
+        rrheWe3u6o8zPRetY5jyaayURPmM6vnhww
+    </div>
+
+    <button class="copy-btn" onclick="copyAddress('solAddress',this)">
+        📋 کپی آدرس
+    </button>
+</div>
+
+
+<!-- 6 TRX -->
+<div class="coin" onclick="toggleDeposit('trx2')">
+    <div class="coin-info">
+        <div class="coin-name">TRON</div>
+        <div class="coin-symbol">TRX - آدرس دوم</div>
+    </div>
+    <div class="arrow">‹</div>
+</div>
+
+<div class="deposit" id="trx2">
+    <div class="deposit-title">آدرس واریز TRON</div>
+
+    <div class="address" id="trx2Address">
+        TRb33idZSi7svRyBTRsEKq8BfL54ADYMh3
+    </div>
+
+    <button class="copy-btn" onclick="copyAddress('trx2Address',this)">
+        📋 کپی آدرس
+    </button>
+</div>
+
+
+<!-- 7 BCH -->
+<div class="coin" onclick="toggleDeposit('bch')">
+    <div class="coin-info">
+        <div class="coin-name">Bitcoin Cash</div>
+        <div class="coin-symbol">BCH</div>
+    </div>
+    <div class="arrow">‹</div>
+</div>
+
+<div class="deposit" id="bch">
+    <div class="deposit-title">آدرس واریز Bitcoin Cash</div>
+
+    <div class="address" id="bchAddress">
+        bitcoincash:qrj64uh0xlah2wzksudq3g5eeg2ewdyg6urq5kywku
+    </div>
+
+    <button class="copy-btn" onclick="copyAddress('bchAddress',this)">
+        📋 کپی آدرس
+    </button>
+</div>
+
+
+<!-- 8 LTC -->
+<div class="coin" onclick="toggleDeposit('ltc')">
+    <div class="coin-info">
+        <div class="coin-name">Litecoin</div>
+        <div class="coin-symbol">LTC</div>
+    </div>
+    <div class="arrow">‹</div>
+</div>
+
+<div class="deposit" id="ltc">
+    <div class="deposit-title">آدرس واریز Litecoin</div>
+
+    <div class="address" id="ltcAddress">
+        LZeRDFWbPLpuqeAw7m5i5YcYiu32KRAM6c
+    </div>
+
+    <button class="copy-btn" onclick="copyAddress('ltcAddress',this)">
+        📋 کپی آدرس
+    </button>
+</div>
+
+</div>
+
+
+<script>
+
+function toggleDeposit(id){
+
+    const box = document.getElementById(id);
+
+    // بستن همه بخش‌ها
+    document.querySelectorAll(".deposit").forEach(function(item){
+        if(item !== box){
+            item.style.display = "none";
+        }
+    });
+
+    // باز/بسته کردن بخش انتخاب‌شده
+    if(box.style.display === "block"){
+        box.style.display = "none";
+    }else{
+        box.style.display = "block";
+    }
+}
+
+
+function copyAddress(id,button){
+
+    const address =
+        document.getElementById(id).innerText.trim();
+
+    navigator.clipboard.writeText(address)
+    .then(function(){
+
+        const oldText = button.innerText;
+
+        button.innerText = "✅ آدرس کپی شد";
+
+        setTimeout(function(){
+            button.innerText = oldText;
+        },2000);
+
+    })
+    .catch(function(){
+
+        const textarea =
+            document.createElement("textarea");
+
+        textarea.value = address;
+
+        document.body.appendChild(textarea);
+
+        textarea.select();
+        textarea.setSelectionRange(0,99999);
+
+        document.execCommand("copy");
+
+        textarea.remove();
+
+        button.innerText = "✅ آدرس کپی شد";
+
+        setTimeout(function(){
+            button.innerText = "📋 کپی آدرس";
+        },2000);
+    });
+}
+
+</script>
+
+</body>
+</html>
 </body>
 </html>

@@ -1,115 +1,116 @@
-# coin-live
+<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Crypto Live Market</title>
+
+<title>بازار آنلاین ارز دیجیتال</title>
 
 <style>
 *{
     box-sizing:border-box;
-    margin:0;
-    padding:0;
-    font-family:Tahoma,Arial,sans-serif;
 }
 
 body{
-    background:
-      radial-gradient(circle at top,#168cff 0%,#0758a8 35%,#032b5c 100%);
+    margin:0;
+    font-family:Tahoma,Arial,sans-serif;
+    background:linear-gradient(135deg,#001f4d,#0066cc,#00a8ff);
     min-height:100vh;
-    color:white;
+    color:#fff;
 }
 
-.header{
-    padding:25px 15px;
+header{
     text-align:center;
-    background:rgba(0,20,60,.35);
-    box-shadow:0 4px 25px rgba(0,0,0,.25);
-    position:sticky;
-    top:0;
-    z-index:10;
-    backdrop-filter:blur(12px);
+    padding:25px 10px;
+    background:rgba(0,0,0,.25);
+    border-bottom:1px solid rgba(255,255,255,.2);
 }
 
-.header h1{
-    font-size:27px;
-    margin-bottom:8px;
+header h1{
+    margin:0;
+    font-size:26px;
 }
 
-.header p{
-    color:#d9efff;
-    font-size:13px;
+header p{
+    margin:10px 0 0;
+    color:#dff5ff;
 }
 
 .live{
-    display:inline-flex;
-    align-items:center;
-    gap:7px;
+    display:inline-block;
     margin-top:12px;
-    background:rgba(0,255,120,.12);
-    border:1px solid rgba(0,255,120,.4);
-    padding:7px 14px;
-    border-radius:30px;
+    padding:7px 15px;
+    border-radius:20px;
+    background:#063d63;
     font-size:12px;
 }
 
-.live-dot{
+.live span{
+    display:inline-block;
     width:9px;
     height:9px;
-    background:#00ff73;
+    background:#00ff66;
     border-radius:50%;
+    margin-left:6px;
     animation:blink 1s infinite;
 }
 
 @keyframes blink{
-    0%,100%{opacity:1;box-shadow:0 0 5px #00ff73}
-    50%{opacity:.2;box-shadow:0 0 18px #00ff73}
+    0%,100%{opacity:1}
+    50%{opacity:.2}
 }
 
 .container{
+    width:95%;
     max-width:900px;
-    margin:auto;
-    padding:18px 12px 40px;
+    margin:20px auto;
 }
 
-.market{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:14px;
-    margin-bottom:10px;
-    background:rgba(255,255,255,.10);
-    border:1px solid rgba(255,255,255,.12);
-    border-radius:17px;
-    backdrop-filter:blur(10px);
-    transition:.2s;
-}
-
-.market:hover{
-    transform:translateY(-2px);
-    background:rgba(255,255,255,.16);
+.status{
+    text-align:center;
+    padding:15px;
+    margin-bottom:15px;
+    border-radius:15px;
+    background:rgba(0,0,0,.2);
 }
 
 .coin{
-    display:flex;
+    display:grid;
+    grid-template-columns:45px 1fr 1fr 50px;
     align-items:center;
-    gap:11px;
-    min-width:150px;
+    gap:10px;
+
+    background:rgba(255,255,255,.13);
+    border:1px solid rgba(255,255,255,.15);
+
+    margin-bottom:9px;
+    padding:12px;
+
+    border-radius:15px;
+
+    backdrop-filter:blur(8px);
+
+    transition:.2s;
 }
 
-.coin img{
-    width:39px;
-    height:39px;
+.coin:hover{
+    background:rgba(255,255,255,.22);
+    transform:translateY(-2px);
+}
+
+.logo{
+    width:38px;
+    height:38px;
     border-radius:50%;
 }
 
-.coin-name{
+.name{
     font-weight:bold;
     font-size:14px;
 }
 
-.coin-symbol{
-    color:#b9ddff;
+.symbol{
+    color:#b9eaff;
     font-size:11px;
     margin-top:4px;
     text-transform:uppercase;
@@ -117,8 +118,8 @@ body{
 
 .price{
     text-align:center;
-    font-size:15px;
     font-weight:bold;
+    direction:ltr;
 }
 
 .change{
@@ -127,77 +128,71 @@ body{
 }
 
 .green{
-    color:#29ff91;
+    color:#00ff8a;
 }
 
 .red{
-    color:#ff7474;
+    color:#ff7777;
 }
 
 .eye{
-    width:39px;
-    height:39px;
-    border:none;
+    width:38px;
+    height:38px;
+
+    border:0;
     border-radius:50%;
+
     background:#00eaff;
-    color:#00345b;
+    color:#00304c;
+
     font-size:18px;
+
     cursor:pointer;
+
+    animation:eye 1.2s infinite;
+
     box-shadow:0 0 8px #00eaff;
-    animation:eyeBlink 1.3s infinite;
 }
 
-@keyframes eyeBlink{
+@keyframes eye{
     0%,100%{
-        transform:scale(1);
         opacity:1;
-        box-shadow:0 0 8px #00eaff;
+        transform:scale(1);
     }
+
     50%{
+        opacity:.45;
         transform:scale(.82);
-        opacity:.55;
-        box-shadow:0 0 25px #00eaff;
     }
 }
 
-.loading{
-    text-align:center;
-    padding:50px 10px;
-    font-size:16px;
-}
+.refresh{
+    width:100%;
+    padding:14px;
 
-.error{
-    text-align:center;
-    background:rgba(255,0,0,.15);
-    border:1px solid rgba(255,100,100,.4);
-    padding:15px;
-    border-radius:15px;
-    margin-top:20px;
-}
+    border:0;
+    border-radius:14px;
 
-.footer{
-    text-align:center;
-    color:#b7d8f5;
-    font-size:11px;
-    margin-top:15px;
+    background:#00eaff;
+    color:#00304c;
+
+    font-size:15px;
+    font-weight:bold;
+
+    cursor:pointer;
+
+    margin-bottom:15px;
 }
 
 @media(max-width:600px){
 
-    .market{
-        padding:11px 9px;
-    }
-
     .coin{
-        min-width:125px;
+        grid-template-columns:40px 1fr 100px 38px;
+        gap:6px;
+        padding:9px;
     }
 
-    .coin img{
-        width:34px;
-        height:34px;
-    }
-
-    .coin-name{
+    .name{
         font-size:12px;
     }
 
@@ -216,156 +211,188 @@ body{
 
 <body>
 
-<header class="header">
-    <h1>💎 بازار آنلاین ارز دیجیتال</h1>
-    <p>قیمت لحظه‌ای ۵۰ ارز دیجیتال برتر</p>
+<header>
 
-    <div class="live">
-        <span class="live-dot"></span>
-        LIVE MARKET
-    </div>
+<h1>💎 بازار آنلاین ارز دیجیتال</h1>
+
+<p>قیمت لحظه‌ای ۵۰ ارز دیجیتال</p>
+
+<div class="live">
+<span></span>
+LIVE
+</div>
+
 </header>
+
 
 <div class="container">
 
-    <div id="market">
-        <div class="loading">
-            ⏳ در حال دریافت قیمت‌های آنلاین...
-        </div>
-    </div>
+<button class="refresh" onclick="loadCoins()">
+🔄 بروزرسانی قیمت‌ها
+</button>
 
-    <div class="footer">
-        قیمت‌ها به صورت آنلاین دریافت می‌شوند
-    </div>
+<div id="status" class="status">
+⏳ در حال دریافت ۵۰ ارز...
+</div>
+
+<div id="coins"></div>
 
 </div>
 
+
 <script>
 
-const API =
-"https://api.coingecko.com/api/v3/coins/markets" +
-"?vs_currency=usd&order=market_cap_desc&per_page=50&page=1&sparkline=false";
+const coinsBox = document.getElementById("coins");
+const statusBox = document.getElementById("status");
 
-function formatPrice(price){
-
-    if(price >= 1){
-        return "$" + price.toLocaleString("en-US",{
-            maximumFractionDigits:2
-        });
-    }
-
-    return "$" + price.toLocaleString("en-US",{
-        maximumSignificantDigits:5
-    });
-}
-
-function formatChange(change){
-
-    const value = Number(change || 0);
-
-    if(value >= 0){
-        return `<span class="green">▲ ${value.toFixed(2)}%</span>`;
-    }
-
-    return `<span class="red">▼ ${Math.abs(value).toFixed(2)}%</span>`;
-}
 
 async function loadCoins(){
 
-    const market = document.getElementById("market");
+    statusBox.innerHTML = "⏳ دریافت قیمت‌های آنلاین...";
 
     try{
 
-        const response = await fetch(API);
+        const url =
+        "https://api.coingecko.com/api/v3/coins/markets" +
+        "?vs_currency=usd" +
+        "&order=market_cap_desc" +
+        "&per_page=50" +
+        "&page=1" +
+        "&sparkline=false" +
+        "&price_change_percentage=24h";
+
+        const response = await fetch(url);
 
         if(!response.ok){
-            throw new Error("API Error");
+            throw new Error("API ERROR");
         }
 
-        const coins = await response.json();
+        const data = await response.json();
 
-        market.innerHTML = "";
+        if(!Array.isArray(data) || data.length < 50){
+            throw new Error("50 COINS NOT FOUND");
+        }
 
-        coins.forEach((coin,index)=>{
+        coinsBox.innerHTML = "";
 
-            const row = document.createElement("div");
+        data.slice(0,50).forEach((coin,index)=>{
 
-            row.className = "market";
+            const change =
+                Number(coin.price_change_percentage_24h || 0);
 
-            row.innerHTML = `
+            const changeClass =
+                change >= 0 ? "green" : "red";
 
-                <div class="coin">
+            const arrow =
+                change >= 0 ? "▲" : "▼";
 
-                    <img
-                      src="${coin.image}"
-                      alt="${coin.name}"
-                      loading="lazy"
-                    >
+            let price;
 
-                    <div>
-                        <div class="coin-name">
-                            ${index+1}. ${coin.name}
-                        </div>
+            if(coin.current_price >= 1){
 
-                        <div class="coin-symbol">
-                            ${coin.symbol}
-                        </div>
+                price =
+                "$" +
+                Number(coin.current_price)
+                .toLocaleString("en-US",{
+                    minimumFractionDigits:2,
+                    maximumFractionDigits:2
+                });
+
+            }else{
+
+                price =
+                "$" +
+                Number(coin.current_price)
+                .toLocaleString("en-US",{
+                    maximumSignificantDigits:6
+                });
+
+            }
+
+            const div = document.createElement("div");
+
+            div.className = "coin";
+
+            div.innerHTML = `
+
+                <img
+                    class="logo"
+                    src="${coin.image}"
+                    alt="${coin.name}"
+                >
+
+                <div>
+
+                    <div class="name">
+                        ${index + 1}. ${coin.name}
+                    </div>
+
+                    <div class="symbol">
+                        ${coin.symbol}
                     </div>
 
                 </div>
+
 
                 <div class="price">
 
-                    ${formatPrice(coin.current_price)}
+                    ${price}
 
-                    <div class="change">
-                        ${formatChange(
-                          coin.price_change_percentage_24h
-                        )}
+                    <div class="change ${changeClass}">
+
+                        ${arrow}
+                        ${Math.abs(change).toFixed(2)}%
+
                     </div>
 
                 </div>
 
+
                 <button
                     class="eye"
-                    onclick="showCoin('${coin.name}')"
-                    title="مشاهده"
+                    onclick="coinInfo('${coin.name}')"
                 >
                     👁
                 </button>
 
             `;
 
-            market.appendChild(row);
+            coinsBox.appendChild(div);
 
         });
 
+
+        statusBox.innerHTML =
+        "🟢 آنلاین | ۵۰ ارز با موفقیت دریافت شد | بروزرسانی خودکار هر ۶۰ ثانیه";
+
+
     }catch(error){
 
-        market.innerHTML = `
-            <div class="error">
-                ❌ دریافت قیمت‌ها انجام نشد.
-                <br><br>
-                چند لحظه بعد دوباره تلاش کنید.
-            </div>
-        `;
+        console.error(error);
+
+        statusBox.innerHTML =
+        "🔴 اتصال به سرویس قیمت برقرار نشد. روی «بروزرسانی» بزنید.";
 
     }
 
 }
 
-function showCoin(name){
+
+function coinInfo(name){
 
     alert(
-        "👁 " + name +
-        "\n\nقیمت این ارز در لیست بازار نمایش داده می‌شود."
+        "💰 " + name +
+        "\n\nقیمت لحظه‌ای این ارز در لیست بالا نمایش داده می‌شود."
     );
 
 }
 
+
+// بار اول
 loadCoins();
 
-/* بروزرسانی خودکار هر 60 ثانیه */
+
+// بروزرسانی هر ۶۰ ثانیه
 setInterval(loadCoins,60000);
 
 </script>

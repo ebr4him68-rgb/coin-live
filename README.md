@@ -2,208 +2,288 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>بازار آنلاین ارز دیجیتال</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Crypto 30 Minute Prediction</title>
 
 <style>
-*{
-    box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
     margin:0;
     font-family:Tahoma,Arial,sans-serif;
-    background:linear-gradient(135deg,#001f4d,#0066cc,#00a8ff);
+    color:white;
+    background:linear-gradient(135deg,#031b45,#075db5,#00a9e8);
     min-height:100vh;
-    color:#fff;
 }
 
 header{
     text-align:center;
-    padding:25px 10px;
+    padding:24px 12px;
     background:rgba(0,0,0,.25);
-    border-bottom:1px solid rgba(255,255,255,.2);
 }
 
 header h1{
     margin:0;
-    font-size:26px;
+    font-size:25px;
 }
 
 header p{
-    margin:10px 0 0;
-    color:#dff5ff;
-}
-
-.live{
-    display:inline-block;
-    margin-top:12px;
-    padding:7px 15px;
-    border-radius:20px;
-    background:#063d63;
-    font-size:12px;
-}
-
-.live span{
-    display:inline-block;
-    width:9px;
-    height:9px;
-    background:#00ff66;
-    border-radius:50%;
-    margin-left:6px;
-    animation:blink 1s infinite;
-}
-
-@keyframes blink{
-    0%,100%{opacity:1}
-    50%{opacity:.2}
+    color:#d8f4ff;
+    font-size:13px;
 }
 
 .container{
-    width:95%;
+    width:94%;
     max-width:900px;
     margin:20px auto;
 }
 
-.status{
-    text-align:center;
-    padding:15px;
-    margin-bottom:15px;
-    border-radius:15px;
-    background:rgba(0,0,0,.2);
+.card{
+    background:rgba(0,20,60,.45);
+    border:1px solid rgba(255,255,255,.16);
+    border-radius:20px;
+    padding:18px;
+    margin-bottom:18px;
+    box-shadow:0 10px 35px rgba(0,0,0,.2);
+    backdrop-filter:blur(10px);
 }
 
-.coin{
-    display:grid;
-    grid-template-columns:45px 1fr 1fr 50px;
-    align-items:center;
-    gap:10px;
-
-    background:rgba(255,255,255,.13);
-    border:1px solid rgba(255,255,255,.15);
-
-    margin-bottom:9px;
-    padding:12px;
-
-    border-radius:15px;
-
-    backdrop-filter:blur(8px);
-
-    transition:.2s;
+label{
+    display:block;
+    margin:10px 0 7px;
+    font-size:13px;
 }
 
-.coin:hover{
-    background:rgba(255,255,255,.22);
-    transform:translateY(-2px);
-}
-
-.logo{
-    width:38px;
-    height:38px;
-    border-radius:50%;
-}
-
-.name{
-    font-weight:bold;
+select,
+input{
+    width:100%;
+    padding:13px;
+    border:none;
+    outline:none;
+    border-radius:12px;
     font-size:14px;
-}
-
-.symbol{
-    color:#b9eaff;
-    font-size:11px;
-    margin-top:4px;
-    text-transform:uppercase;
+    background:white;
+    color:#123;
 }
 
 .price{
     text-align:center;
+    margin:18px 0;
+}
+
+.price small{
+    display:block;
+    color:#bdeaff;
+    margin-bottom:7px;
+}
+
+.price strong{
+    font-size:25px;
+    direction:ltr;
+    display:block;
+}
+
+.address-note{
+    font-size:11px;
+    color:#bfe8ff;
+    margin-top:6px;
+}
+
+.directions{
+    display:flex;
+    gap:10px;
+    margin-top:15px;
+}
+
+.direction{
+    flex:1;
+    border:2px solid transparent;
+    border-radius:14px;
+    padding:15px 5px;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+    background:#123c68;
+    color:white;
+}
+
+.direction.up{
+    border-color:#00ff91;
+}
+
+.direction.down{
+    border-color:#ff7777;
+}
+
+.direction.selected{
+    background:#00dca0;
+    color:#003d32;
+    box-shadow:0 0 20px rgba(0,255,150,.5);
+}
+
+.direction.down.selected{
+    background:#ff5555;
+    color:white;
+    box-shadow:0 0 20px rgba(255,60,60,.5);
+}
+
+button#start{
+    width:100%;
+    margin-top:16px;
+    padding:15px;
+    border:0;
+    border-radius:14px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    background:#777;
+    color:#ccc;
+}
+
+button#start.enabled{
+    background:#00eaff;
+    color:#003653;
+    box-shadow:0 0 20px rgba(0,234,255,.45);
+}
+
+button#start:disabled{
+    cursor:not-allowed;
+}
+
+.timer{
+    text-align:center;
+    display:none;
+}
+
+.timer-title{
+    color:#ccefff;
+    margin-bottom:10px;
+}
+
+.time{
+    font-size:42px;
     font-weight:bold;
     direction:ltr;
+    letter-spacing:3px;
 }
 
-.change{
-    font-size:11px;
-    margin-top:5px;
+.progress{
+    height:10px;
+    background:rgba(255,255,255,.15);
+    border-radius:10px;
+    overflow:hidden;
+    margin-top:15px;
 }
 
-.green{
-    color:#00ff8a;
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:#00eaff;
+    transition:width 1s linear;
 }
 
-.red{
-    color:#ff7777;
+.result{
+    display:none;
+    text-align:center;
+    padding:20px;
+}
+
+.result.win{
+    border:2px solid #00ff91;
+}
+
+.result.loss{
+    border:2px solid #ff5555;
+}
+
+.coin-list-title{
+    text-align:center;
+    margin-bottom:15px;
+}
+
+.coin{
+    display:grid;
+    grid-template-columns:42px 1fr 120px 42px;
+    align-items:center;
+    gap:8px;
+    padding:10px;
+    margin-bottom:8px;
+    border-radius:14px;
+    background:rgba(255,255,255,.1);
+}
+
+.coin img{
+    width:36px;
+    height:36px;
+    border-radius:50%;
+}
+
+.coin-name{
+    font-size:13px;
+    font-weight:bold;
+}
+
+.coin-symbol{
+    color:#b9eaff;
+    font-size:10px;
+    margin-top:3px;
+}
+
+.coin-price{
+    text-align:center;
+    direction:ltr;
+    font-size:12px;
+    font-weight:bold;
 }
 
 .eye{
     width:38px;
     height:38px;
-
     border:0;
     border-radius:50%;
-
     background:#00eaff;
-    color:#00304c;
-
-    font-size:18px;
-
     cursor:pointer;
-
-    animation:eye 1.2s infinite;
-
-    box-shadow:0 0 8px #00eaff;
+    animation:blink 1.2s infinite;
 }
 
-@keyframes eye{
+@keyframes blink{
     0%,100%{
         opacity:1;
         transform:scale(1);
     }
-
     50%{
         opacity:.45;
-        transform:scale(.82);
+        transform:scale(.8);
     }
 }
 
-.refresh{
-    width:100%;
-    padding:14px;
+.status{
+    text-align:center;
+    padding:10px;
+    font-size:12px;
+    color:#d5f4ff;
+}
 
-    border:0;
-    border-radius:14px;
-
-    background:#00eaff;
-    color:#00304c;
-
-    font-size:15px;
-    font-weight:bold;
-
-    cursor:pointer;
-
-    margin-bottom:15px;
+.error{
+    color:#ff8d8d;
 }
 
 @media(max-width:600px){
 
     .coin{
-        grid-template-columns:40px 1fr 100px 38px;
-        gap:6px;
-        padding:9px;
+        grid-template-columns:38px 1fr 95px 38px;
     }
 
-    .name{
-        font-size:12px;
+    .coin-name{
+        font-size:11px;
     }
 
-    .price{
-        font-size:12px;
+    .coin-price{
+        font-size:10px;
     }
 
-    .eye{
-        width:34px;
-        height:34px;
-        font-size:15px;
+    .time{
+        font-size:35px;
     }
 }
 </style>
@@ -212,43 +292,154 @@ header p{
 <body>
 
 <header>
-
-<h1>💎 بازار آنلاین ارز دیجیتال</h1>
-
-<p>قیمت لحظه‌ای ۵۰ ارز دیجیتال</p>
-
-<div class="live">
-<span></span>
-LIVE
-</div>
-
+    <h1>💎 پیش‌بینی ۳۰ دقیقه‌ای ارز دیجیتال</h1>
+    <p>قیمت آنلاین ۵۰ ارز دیجیتال</p>
 </header>
-
 
 <div class="container">
 
-<button class="refresh" onclick="loadCoins()">
-🔄 بروزرسانی قیمت‌ها
-</button>
+    <!-- Prediction -->
+    <div class="card">
 
-<div id="status" class="status">
-⏳ در حال دریافت ۵۰ ارز...
-</div>
+        <h3>🎯 ثبت پیش‌بینی</h3>
 
-<div id="coins"></div>
+        <label>انتخاب ارز</label>
+
+        <select id="coinSelect" onchange="coinChanged()">
+            <option value="">⏳ در حال دریافت ارزها...</option>
+        </select>
+
+        <div class="price">
+            <small>قیمت فعلی</small>
+            <strong id="currentPrice">---</strong>
+        </div>
+
+        <label id="addressLabel">
+            آدرس کیف پول
+        </label>
+
+        <input
+            id="walletAddress"
+            type="text"
+            placeholder="ابتدا یک ارز انتخاب کنید"
+            disabled
+            oninput="checkForm()"
+        >
+
+        <div class="address-note" id="addressNote">
+            برای ثبت پیش‌بینی باید آدرس همان ارز را وارد کنید.
+        </div>
+
+        <div class="directions">
+
+            <button
+                id="upBtn"
+                class="direction up"
+                onclick="chooseDirection('up')"
+                disabled
+            >
+                ⬆️ بالا
+            </button>
+
+            <button
+                id="downBtn"
+                class="direction down"
+                onclick="chooseDirection('down')"
+                disabled
+            >
+                ⬇️ پایین
+            </button>
+
+        </div>
+
+        <button
+            id="start"
+            onclick="startPrediction()"
+            disabled
+        >
+            🔒 ابتدا آدرس ارز را وارد کنید
+        </button>
+
+        <div id="formStatus" class="status"></div>
+
+    </div>
+
+
+    <!-- Timer -->
+
+    <div class="card timer" id="timerBox">
+
+        <div class="timer-title">
+            ⏱️ پیش‌بینی شما در حال اجراست
+        </div>
+
+        <div id="timer" class="time">
+            30:00
+        </div>
+
+        <div class="progress">
+            <div id="progressBar" class="progress-bar"></div>
+        </div>
+
+        <div class="status" id="predictionInfo"></div>
+
+    </div>
+
+
+    <!-- Result -->
+
+    <div class="card result" id="resultBox">
+
+        <h2 id="resultTitle"></h2>
+
+        <p id="resultText"></p>
+
+        <button
+            id="newPrediction"
+            class="refresh"
+            onclick="location.reload()"
+        >
+            🔄 پیش‌بینی جدید
+        </button>
+
+    </div>
+
+
+    <!-- 50 Coins -->
+
+    <div class="card">
+
+        <h3 class="coin-list-title">
+            📊 ۵۰ ارز دیجیتال آنلاین
+        </h3>
+
+        <div id="status" class="status">
+            ⏳ دریافت قیمت‌ها...
+        </div>
+
+        <div id="coinList"></div>
+
+    </div>
 
 </div>
 
 
 <script>
 
-const coinsBox = document.getElementById("coins");
-const statusBox = document.getElementById("status");
+let coins = [];
+let selectedCoin = null;
+let selectedDirection = null;
+let startPrice = 0;
+let endTime = 0;
+let timerInterval = null;
 
+
+/* API */
 
 async function loadCoins(){
 
-    statusBox.innerHTML = "⏳ دریافت قیمت‌های آنلاین...";
+    const status =
+        document.getElementById("status");
 
     try{
 
@@ -261,139 +452,552 @@ async function loadCoins(){
         "&sparkline=false" +
         "&price_change_percentage=24h";
 
-        const response = await fetch(url);
+        const response =
+            await fetch(url);
 
-        if(!response.ok){
-            throw new Error("API ERROR");
-        }
+        if(!response.ok)
+            throw new Error("API");
 
-        const data = await response.json();
+        coins =
+            await response.json();
 
-        if(!Array.isArray(data) || data.length < 50){
-            throw new Error("50 COINS NOT FOUND");
-        }
+        if(coins.length < 50)
+            throw new Error("50 coins");
 
-        coinsBox.innerHTML = "";
+        status.innerHTML =
+            "🟢 قیمت ۵۰ ارز آنلاین است";
 
-        data.slice(0,50).forEach((coin,index)=>{
+        createSelect();
+        createList();
 
-            const change =
-                Number(coin.price_change_percentage_24h || 0);
+    }catch(e){
 
-            const changeClass =
-                change >= 0 ? "green" : "red";
+        status.innerHTML =
+            "🔴 دریافت قیمت‌ها ناموفق بود. صفحه را دوباره باز کنید.";
 
-            const arrow =
-                change >= 0 ? "▲" : "▼";
+    }
+}
 
-            let price;
 
-            if(coin.current_price >= 1){
+/* Select */
 
-                price =
-                "$" +
-                Number(coin.current_price)
-                .toLocaleString("en-US",{
-                    minimumFractionDigits:2,
-                    maximumFractionDigits:2
-                });
+function createSelect(){
 
-            }else{
+    const select =
+        document.getElementById("coinSelect");
 
-                price =
-                "$" +
-                Number(coin.current_price)
-                .toLocaleString("en-US",{
-                    maximumSignificantDigits:6
-                });
+    select.innerHTML =
+        '<option value="">انتخاب ارز...</option>';
 
+    coins.forEach((coin,index)=>{
+
+        const option =
+            document.createElement("option");
+
+        option.value = index;
+
+        option.textContent =
+            (index+1) +
+            " - " +
+            coin.name +
+            " (" +
+            coin.symbol.toUpperCase() +
+            ")";
+
+        select.appendChild(option);
+
+    });
+}
+
+
+/* List */
+
+function createList(){
+
+    const list =
+        document.getElementById("coinList");
+
+    list.innerHTML = "";
+
+    coins.forEach((coin,index)=>{
+
+        const row =
+            document.createElement("div");
+
+        row.className = "coin";
+
+        row.innerHTML = `
+
+            <img src="${coin.image}">
+
+            <div>
+                <div class="coin-name">
+                    ${index+1}. ${coin.name}
+                </div>
+
+                <div class="coin-symbol">
+                    ${coin.symbol.toUpperCase()}
+                </div>
+            </div>
+
+            <div class="coin-price">
+                ${formatPrice(coin.current_price)}
+            </div>
+
+            <button
+                class="eye"
+                onclick="selectCoin(${index})"
+            >
+                👁
+            </button>
+
+        `;
+
+        list.appendChild(row);
+
+    });
+}
+
+
+/* Select coin */
+
+function selectCoin(index){
+
+    document.getElementById("coinSelect").value =
+        index;
+
+    coinChanged();
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+}
+
+
+/* Coin changed */
+
+function coinChanged(){
+
+    const value =
+        document.getElementById("coinSelect").value;
+
+    if(value === ""){
+
+        selectedCoin = null;
+
+        document.getElementById("walletAddress").disabled =
+            true;
+
+        document.getElementById("upBtn").disabled =
+            true;
+
+        document.getElementById("downBtn").disabled =
+            true;
+
+        document.getElementById("currentPrice").innerText =
+            "---";
+
+        checkForm();
+
+        return;
+    }
+
+    selectedCoin =
+        coins[Number(value)];
+
+    document.getElementById("currentPrice").innerText =
+        formatPrice(selectedCoin.current_price);
+
+    const symbol =
+        selectedCoin.symbol.toUpperCase();
+
+    document.getElementById("addressLabel").innerText =
+        "آدرس کیف پول " + symbol;
+
+    document.getElementById("walletAddress").placeholder =
+        "آدرس " + symbol + " خود را وارد کنید";
+
+    document.getElementById("walletAddress").disabled =
+        false;
+
+    document.getElementById("upBtn").disabled =
+        false;
+
+    document.getElementById("downBtn").disabled =
+        false;
+
+    selectedDirection = null;
+
+    document.getElementById("upBtn")
+        .classList.remove("selected");
+
+    document.getElementById("downBtn")
+        .classList.remove("selected");
+
+    checkForm();
+}
+
+
+/* Direction */
+
+function chooseDirection(direction){
+
+    if(!selectedCoin)
+        return;
+
+    selectedDirection =
+        direction;
+
+    document.getElementById("upBtn")
+        .classList.toggle(
+            "selected",
+            direction === "up"
+        );
+
+    document.getElementById("downBtn")
+        .classList.toggle(
+            "selected",
+            direction === "down"
+        );
+
+    checkForm();
+}
+
+
+/* Address validation */
+
+function validAddress(address){
+
+    address =
+        address.trim();
+
+    if(!address)
+        return false;
+
+    const symbol =
+        selectedCoin.symbol.toUpperCase();
+
+    /*
+       این قسمت برای نسخه نمایشی است.
+       اعتبارسنجی کامل هر شبکه باید جداگانه انجام شود.
+    */
+
+    if(symbol === "TRX"){
+        return address.startsWith("T")
+            && address.length >= 30
+            && address.length <= 36;
+    }
+
+    if(symbol === "DOGE"){
+        return address.startsWith("D")
+            && address.length >= 30
+            && address.length <= 40;
+    }
+
+    if(symbol === "BTC"){
+        return (
+            address.startsWith("1") ||
+            address.startsWith("3") ||
+            address.startsWith("bc1")
+        );
+    }
+
+    if(symbol === "ETH"){
+        return /^0x[a-fA-F0-9]{40}$/.test(address);
+    }
+
+    /* برای سایر ارزها حداقل بررسی طول */
+    return address.length >= 20;
+}
+
+
+/* Check form */
+
+function checkForm(){
+
+    const address =
+        document.getElementById("walletAddress").value;
+
+    const start =
+        document.getElementById("start");
+
+    if(
+        selectedCoin &&
+        validAddress(address) &&
+        selectedDirection
+    ){
+
+        start.disabled = false;
+
+        start.classList.add("enabled");
+
+        start.innerText =
+            "🚀 ثبت پیش‌بینی و شروع ۳۰ دقیقه";
+
+        document.getElementById("formStatus")
+            .innerText =
+            "🟢 اطلاعات کامل است";
+
+    }else{
+
+        start.disabled = true;
+
+        start.classList.remove("enabled");
+
+        start.innerText =
+            "🔒 ابتدا آدرس همان ارز و جهت را وارد کنید";
+
+        document.getElementById("formStatus")
+            .innerText =
+            "⚠️ برای ثبت پیش‌بینی، آدرس همان ارز + بالا یا پایین را انتخاب کنید.";
+
+    }
+}
+
+
+/* Start */
+
+function startPrediction(){
+
+    const address =
+        document.getElementById("walletAddress")
+        .value.trim();
+
+    if(!selectedCoin ||
+       !validAddress(address) ||
+       !selectedDirection){
+
+        return;
+    }
+
+    startPrice =
+        Number(selectedCoin.current_price);
+
+    /*
+       30 دقیقه
+    */
+
+    endTime =
+        Date.now() +
+        (30 * 60 * 1000);
+
+    document.querySelector(".card")
+        .style.display = "none";
+
+    document.getElementById("timerBox")
+        .style.display = "block";
+
+    document.getElementById("predictionInfo")
+        .innerHTML =
+        "🪙 " +
+        selectedCoin.name +
+        " | قیمت شروع: " +
+        formatPrice(startPrice) +
+        "<br>پیش‌بینی: " +
+        (selectedDirection === "up"
+            ? "⬆️ بالا"
+            : "⬇️ پایین");
+
+    timerInterval =
+        setInterval(updateTimer,1000);
+
+    updateTimer();
+}
+
+
+/* Timer */
+
+function updateTimer(){
+
+    const remaining =
+        endTime - Date.now();
+
+    if(remaining <= 0){
+
+        clearInterval(timerInterval);
+
+        document.getElementById("timer")
+            .innerText = "00:00";
+
+        finishPrediction();
+
+        return;
+    }
+
+    const totalSeconds =
+        Math.floor(remaining / 1000);
+
+    const minutes =
+        Math.floor(totalSeconds / 60);
+
+    const seconds =
+        totalSeconds % 60;
+
+    document.getElementById("timer")
+        .innerText =
+        String(minutes).padStart(2,"0") +
+        ":" +
+        String(seconds).padStart(2,"0");
+
+    const elapsed =
+        (30*60*1000) -
+        remaining;
+
+    const percent =
+        Math.min(
+            100,
+            (elapsed/(30*60*1000))*100
+        );
+
+    document.getElementById("progressBar")
+        .style.width =
+        percent + "%";
+}
+
+
+/* Finish */
+
+async function finishPrediction(){
+
+    try{
+
+        /*
+          دریافت قیمت نهایی
+        */
+
+        const url =
+        "https://api.coingecko.com/api/v3/simple/price" +
+        "?ids=" +
+        selectedCoin.id +
+        "&vs_currencies=usd";
+
+        const response =
+            await fetch(url);
+
+        const data =
+            await response.json();
+
+        const finalPrice =
+            Number(
+                data[selectedCoin.id].usd
+            );
+
+        showResult(finalPrice);
+
+    }catch(e){
+
+        document.getElementById("resultBox")
+            .style.display = "block";
+
+        document.getElementById("resultTitle")
+            .innerText =
+            "⚠️ قیمت نهایی دریافت نشد";
+
+        document.getElementById("resultText")
+            .innerText =
+            "برای مشخص‌شدن نتیجه، قیمت نهایی باید از سرویس قیمت دریافت شود.";
+
+    }
+}
+
+
+/* Result */
+
+function showResult(finalPrice){
+
+    const result =
+        document.getElementById("resultBox");
+
+    const title =
+        document.getElementById("resultTitle");
+
+    const text =
+        document.getElementById("resultText");
+
+    const difference =
+        finalPrice - startPrice;
+
+    let win = false;
+
+    if(selectedDirection === "up"){
+        win = difference > 0;
+    }
+
+    if(selectedDirection === "down"){
+        win = difference < 0;
+    }
+
+    result.style.display = "block";
+
+    result.classList.remove(
+        "win",
+        "loss"
+    );
+
+    result.classList.add(
+        win ? "win" : "loss"
+    );
+
+    title.innerText =
+        win
+        ? "🎉 پیش‌بینی درست بود"
+        : "❌ پیش‌بینی درست نبود";
+
+    text.innerHTML =
+
+        "ارز: <b>" +
+        selectedCoin.name +
+        "</b><br><br>" +
+
+        "قیمت شروع: " +
+        formatPrice(startPrice) +
+        "<br>" +
+
+        "قیمت پایان: " +
+        formatPrice(finalPrice) +
+        "<br><br>" +
+
+        "پیش‌بینی شما: " +
+        (selectedDirection === "up"
+            ? "⬆️ بالا"
+            : "⬇️ پایین");
+
+}
+
+
+/* Format */
+
+function formatPrice(price){
+
+    price = Number(price);
+
+    if(price >= 1){
+
+        return "$" +
+        price.toLocaleString(
+            "en-US",
+            {
+                minimumFractionDigits:2,
+                maximumFractionDigits:2
             }
-
-            const div = document.createElement("div");
-
-            div.className = "coin";
-
-            div.innerHTML = `
-
-                <img
-                    class="logo"
-                    src="${coin.image}"
-                    alt="${coin.name}"
-                >
-
-                <div>
-
-                    <div class="name">
-                        ${index + 1}. ${coin.name}
-                    </div>
-
-                    <div class="symbol">
-                        ${coin.symbol}
-                    </div>
-
-                </div>
-
-
-                <div class="price">
-
-                    ${price}
-
-                    <div class="change ${changeClass}">
-
-                        ${arrow}
-                        ${Math.abs(change).toFixed(2)}%
-
-                    </div>
-
-                </div>
-
-
-                <button
-                    class="eye"
-                    onclick="coinInfo('${coin.name}')"
-                >
-                    👁
-                </button>
-
-            `;
-
-            coinsBox.appendChild(div);
-
-        });
-
-
-        statusBox.innerHTML =
-        "🟢 آنلاین | ۵۰ ارز با موفقیت دریافت شد | بروزرسانی خودکار هر ۶۰ ثانیه";
-
-
-    }catch(error){
-
-        console.error(error);
-
-        statusBox.innerHTML =
-        "🔴 اتصال به سرویس قیمت برقرار نشد. روی «بروزرسانی» بزنید.";
+        );
 
     }
 
-}
-
-
-function coinInfo(name){
-
-    alert(
-        "💰 " + name +
-        "\n\nقیمت لحظه‌ای این ارز در لیست بالا نمایش داده می‌شود."
+    return "$" +
+    price.toLocaleString(
+        "en-US",
+        {
+            maximumSignificantDigits:7
+        }
     );
-
 }
 
 
-// بار اول
+/* Start */
+
 loadCoins();
-
-
-// بروزرسانی هر ۶۰ ثانیه
-setInterval(loadCoins,60000);
 
 </script>
 

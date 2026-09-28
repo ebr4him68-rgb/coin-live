@@ -1369,7 +1369,629 @@ function copyAddress(id,button){
 }
 
 </script>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>برداشت DOGE</title>
 
+<style>
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#071a35;
+    color:#fff;
+}
+
+.box{
+    max-width:600px;
+    margin:25px auto;
+    padding:20px;
+    background:#102d52;
+    border-radius:16px;
+}
+
+h2{text-align:center}
+
+input{
+    width:100%;
+    box-sizing:border-box;
+    padding:14px;
+    margin:7px 0;
+    border-radius:10px;
+    border:1px solid #486987;
+    background:#071a35;
+    color:#fff;
+    font-size:15px;
+}
+
+button{
+    width:100%;
+    padding:13px;
+    margin-top:10px;
+    border:0;
+    border-radius:10px;
+    background:#16c784;
+    color:#fff;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.settings{
+    background:#31577f;
+}
+
+.overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.8);
+    z-index:9999;
+    overflow:auto;
+    padding:15px;
+}
+
+.panel{
+    max-width:700px;
+    margin:25px auto;
+    background:#102d52;
+    padding:20px;
+    border-radius:16px;
+    position:relative;
+}
+
+.close{
+    position:absolute;
+    left:12px;
+    top:12px;
+    width:38px;
+    height:38px;
+    padding:0;
+    background:#b3261e;
+}
+
+.request{
+    background:#071a35;
+    padding:15px;
+    margin:12px 0;
+    border-radius:12px;
+}
+
+.address{
+    direction:ltr;
+    text-align:left;
+    word-break:break-all;
+    background:#173452;
+    padding:10px;
+    border-radius:8px;
+    margin:10px 0;
+}
+
+.status{
+    text-align:center;
+    padding:9px;
+    border-radius:8px;
+    background:#765c14;
+    margin:8px 0;
+}
+
+.paid{background:#12623c}
+.rejected{background:#762626}
+
+.actions{
+    display:flex;
+    gap:8px;
+}
+
+.actions button{
+    flex:1;
+}
+
+.reject{
+    background:#b3261e;
+}
+
+#message{
+    text-align:center;
+    margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     فرم برداشت کاربر
+========================= -->
+
+<div class="box">
+
+<h2>🐕 برداشت Dogecoin</h2>
+
+<p style="text-align:center;color:#b8c9dc">
+فقط آدرس کیف پول DOGE خودتان را وارد کنید.
+</p>
+
+<input
+    id="dogeAddress"
+    type="text"
+    placeholder="آدرس Dogecoin"
+    dir="ltr"
+>
+
+<input
+    id="dogeAmount"
+    type="number"
+    min="1"
+    step="0.01"
+    placeholder="مبلغ برداشت به DOGE"
+>
+
+<button onclick="createRequest()">
+💸 ثبت درخواست برداشت
+</button>
+
+<div id="message"></div>
+
+</div>
+
+
+<!-- =========================
+     دکمه تنظیمات
+========================= -->
+
+<div class="box">
+
+<button class="settings" onclick="openPanel()">
+⚙️ تنظیمات / ثبت برداشت‌ها
+</button>
+
+</div>
+
+
+<!-- =========================
+     پنل مدیریت
+========================= -->
+
+<div id="overlay" class="overlay">
+
+<div class="panel">
+
+<button class="close" onclick="closePanel()">✕</button>
+
+<h2>🔐 پنل مدیریت برداشت‌ها</h2>
+
+
+<!-- ورود -->
+
+<div id="loginBox">
+
+<input
+    id="password"
+    type="password"
+    placeholder="رمز پنل"
+>
+
+<button onclick="login()">
+ورود به پنل
+</button>
+
+<div id="loginMessage"></div>
+
+</div>
+
+
+<!-- محتوای پنل -->
+
+<div id="adminBox" style="display:none">
+
+<h3>📋 درخواست‌های برداشت DOGE</h3>
+
+<div id="requests"></div>
+
+<button
+    onclick="logout()"
+    style="background:#555">
+خروج از پنل
+</button>
+
+</div>
+
+</div>
+</div>
+
+
+<script>
+
+/* =================================
+   رمز پنل مدیریت
+================================= */
+
+const ADMIN_PASSWORD = "DogeAdmin2026";
+
+
+/* =================================
+   ایجاد درخواست برداشت
+================================= */
+
+function createRequest(){
+
+    const address =
+        document.getElementById("dogeAddress")
+        .value.trim();
+
+    const amount =
+        Number(
+            document.getElementById("dogeAmount")
+            .value
+        );
+
+    const message =
+        document.getElementById("message");
+
+
+    if(!address){
+
+        message.innerHTML =
+        "❌ آدرس DOGE را وارد کنید.";
+
+        return;
+    }
+
+
+    /*
+      بررسی ساده آدرس Dogecoin
+    */
+
+    if(!/^D[5-9A-HJ-NP-Ua-km-z1-9]{25,50}$/.test(address)){
+
+        message.innerHTML =
+        "❌ آدرس واردشده معتبر به نظر نمی‌رسد.";
+
+        return;
+    }
+
+
+    if(!amount || amount <= 0){
+
+        message.innerHTML =
+        "❌ مبلغ برداشت را وارد کنید.";
+
+        return;
+    }
+
+
+    const id =
+        "DOGE-" +
+        Date.now().toString().slice(-8);
+
+
+    const request = {
+
+        id:id,
+
+        coin:"DOGE",
+
+        address:address,
+
+        amount:amount,
+
+        status:"در انتظار پرداخت",
+
+        txid:"",
+
+        time:new Date().toLocaleString("fa-IR")
+
+    };
+
+
+    let data =
+        JSON.parse(
+            localStorage.getItem("dogeRequests")
+            || "[]"
+        );
+
+
+    data.push(request);
+
+
+    localStorage.setItem(
+        "dogeRequests",
+        JSON.stringify(data)
+    );
+
+
+    message.innerHTML = `
+        <div style="
+            background:#12623c;
+            padding:12px;
+            border-radius:10px;
+            margin-top:10px">
+            ✅ درخواست ثبت شد<br>
+            شماره درخواست:
+            <b>${id}</b>
+        </div>
+    `;
+
+
+    document.getElementById("dogeAddress").value="";
+    document.getElementById("dogeAmount").value="";
+}
+
+
+/* =================================
+   باز کردن پنل
+================================= */
+
+function openPanel(){
+
+    document.getElementById("overlay")
+    .style.display="block";
+
+}
+
+
+/* =================================
+   بستن پنل
+================================= */
+
+function closePanel(){
+
+    document.getElementById("overlay")
+    .style.display="none";
+
+}
+
+
+/* =================================
+   ورود
+================================= */
+
+function login(){
+
+    const password =
+        document.getElementById("password")
+        .value;
+
+    if(password === ADMIN_PASSWORD){
+
+        document.getElementById("loginBox")
+        .style.display="none";
+
+        document.getElementById("adminBox")
+        .style.display="block";
+
+        loadRequests();
+
+    }else{
+
+        document.getElementById("loginMessage")
+        .innerHTML =
+        "<p style='color:#ff8888'>❌ رمز اشتباه است.</p>";
+
+    }
+
+}
+
+
+/* =================================
+   خروج
+================================= */
+
+function logout(){
+
+    document.getElementById("adminBox")
+    .style.display="none";
+
+    document.getElementById("loginBox")
+    .style.display="block";
+
+    document.getElementById("password").value="";
+
+}
+
+
+/* =================================
+   نمایش درخواست‌ها
+================================= */
+
+function loadRequests(){
+
+    const container =
+        document.getElementById("requests");
+
+
+    const data =
+        JSON.parse(
+            localStorage.getItem("dogeRequests")
+            || "[]"
+        );
+
+
+    if(data.length === 0){
+
+        container.innerHTML =
+        `<p style="text-align:center;color:#aabbd0">
+        هنوز درخواست برداشتی وجود ندارد.
+        </p>`;
+
+        return;
+    }
+
+
+    container.innerHTML="";
+
+
+    data.slice().reverse().forEach(function(r){
+
+        const div =
+            document.createElement("div");
+
+        div.className="request";
+
+
+        let statusClass="";
+
+        if(r.status==="پرداخت شد")
+            statusClass="paid";
+
+        if(r.status==="رد شد")
+            statusClass="rejected";
+
+
+        div.innerHTML = `
+
+            <b>🧾 ${r.id}</b>
+
+            <p>
+            💰 مبلغ:
+            <b>${r.amount} DOGE</b>
+            </p>
+
+            <p>
+            🕒 ${r.time}
+            </p>
+
+            <div class="address">
+            ${r.address}
+            </div>
+
+            <div class="status ${statusClass}">
+            ${r.status}
+            </div>
+
+            ${
+                r.status === "در انتظار پرداخت"
+                ?
+                `
+                <input
+                    id="tx_${r.id}"
+                    placeholder="TXID تراکنش"
+                    dir="ltr"
+                >
+
+                <div class="actions">
+
+                    <button
+                        onclick="markPaid('${r.id}')">
+                        ✅ پرداخت شد
+                    </button>
+
+                    <button
+                        class="reject"
+                        onclick="rejectRequest('${r.id}')">
+                        ❌ رد
+                    </button>
+
+                </div>
+                `
+                :
+                (
+                    r.txid
+                    ?
+                    `<p dir="ltr">
+                    TXID: ${r.txid}
+                    </p>`
+                    :
+                    ""
+                )
+            }
+
+        `;
+
+
+        container.appendChild(div);
+
+    });
+
+}
+
+
+/* =================================
+   پرداخت شد
+================================= */
+
+function markPaid(id){
+
+    let data =
+        JSON.parse(
+            localStorage.getItem("dogeRequests")
+            || "[]"
+        );
+
+
+    const request =
+        data.find(x => x.id === id);
+
+
+    if(!request) return;
+
+
+    const tx =
+        document.getElementById("tx_"+id);
+
+
+    request.txid =
+        tx ? tx.value.trim() : "";
+
+
+    request.status="پرداخت شد";
+
+
+    localStorage.setItem(
+        "dogeRequests",
+        JSON.stringify(data)
+    );
+
+
+    loadRequests();
+
+}
+
+
+/* =================================
+   رد درخواست
+================================= */
+
+function rejectRequest(id){
+
+    if(!confirm("این درخواست رد شود؟"))
+        return;
+
+
+    let data =
+        JSON.parse(
+            localStorage.getItem("dogeRequests")
+            || "[]"
+        );
+
+
+    const request =
+        data.find(x => x.id === id);
+
+
+    if(!request) return;
+
+
+    request.status="رد شد";
+
+
+    localStorage.setItem(
+        "dogeRequests",
+        JSON.stringify(data)
+    );
+
+
+    loadRequests();
+
+}
+
+</script>
+
+</body>
+</html>
 </body>
 </html>
 </body>
